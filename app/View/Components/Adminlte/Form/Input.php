@@ -1,0 +1,38 @@
+<?php
+
+namespace App\View\Components\Adminlte\Form;
+
+use Illuminate\View\View;
+
+class Input extends InputGroupComponent
+{
+    use Traits\OldValueSupportTrait;
+
+    /**
+     * Create a new component instance.
+     *
+     * @return void
+     */
+    public function __construct(
+        $name, $id = null, $label = null, $igroupSize = null, $labelClass = null,
+        $fgroupClass = null, $igroupClass = null, $disableFeedback = null,
+        $errorKey = null, $enableOldSupport = null
+    ) {
+        parent::__construct(
+            $name, $id, $label, $igroupSize, $labelClass, $fgroupClass,
+            $igroupClass, $disableFeedback, $errorKey
+        );
+
+        $this->enableOldSupport = isset($enableOldSupport);
+    }
+
+    /**
+     * Get the view / contents that represent the component.
+     *
+     * @return View|string
+     */
+    public function render()
+    {
+        return view('adminlte::components.form.input');
+    }
+}
