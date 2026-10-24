@@ -23,5 +23,5 @@ Route::get('/pos', function () {
 
 // Dynamic ERP modules route (List, Search, Filter & Forms)
 Route::get('/{module}/{submodule?}', [ModuleController::class, 'show'])
-    ->where('module', 'master|purchasing|inventory|produksi|qc|penjualan|marketplace|finance|laporan')
+    ->where('module', 'master|purchasing|inventory|produksi|qc|penjualan|marketplace|finance|accounting|retur|return|laporan')
     ->name('module.show');

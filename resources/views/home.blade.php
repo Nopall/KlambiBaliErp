@@ -25,8 +25,47 @@
 @stop
 
 @section('content')
-    {{-- METRIC CARDS ROW 1 --}}
-    <div class="row g-3 mb-4">
+    {{-- DEMO ACCOUNT WALKTHROUGH ACCORDION / CARD (SESUAI HALAMAN 9 PDF) --}}
+    <div class="card border-0 shadow-sm rounded-3 mb-4 bg-gradient" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+        <div class="card-body p-4 text-white">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                <div>
+                    <span class="badge bg-primary px-3 py-1 mb-2 text-uppercase"><i class="bi bi-patch-check-fill me-1"></i> Demo Account Scenario (Halaman 9 PDF)</span>
+                    <h4 class="fw-bold mb-1 text-white">Simulasi 12 Langkah Alur Bisnis KlambiBali</h4>
+                    <p class="text-white-50 small mb-0">Semua dummy data di sistem ini telah disinkronkan secara presisi dengan alur produksi kebaya, 7 gudang, dan pembukuan akuntansi.</p>
+                </div>
+                <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#demoStepsCollapse" aria-expanded="true">
+                    <i class="bi bi-chevron-down me-1"></i> Buka / Tutup Rincian 12 Langkah
+                </button>
+            </div>
+
+            <div class="collapse show" id="demoStepsCollapse">
+                <div class="row g-2 mt-2">
+                    @foreach($demoSteps as $step)
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <div class="p-3 rounded-3 h-100 bg-white bg-opacity-10 border border-white border-opacity-10">
+                                <div class="d-flex align-items-start gap-2">
+                                    <span class="badge bg-primary rounded-circle p-2 fs-6" style="width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center;">{{ $step['step'] }}</span>
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="fw-bold text-white mb-1 small">{{ $step['title'] }}</h6>
+                                            <a href="{{ url($step['url']) }}" class="btn btn-xs btn-outline-info py-0 px-1 text-decoration-none" style="font-size: 11px;">
+                                                Buka <i class="bi bi-arrow-right"></i>
+                                            </a>
+                                        </div>
+                                        <p class="text-white-50 mb-0" style="font-size: 12px; line-height: 1.4;">{{ $step['desc'] }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- METRIC CARDS ROW 1: CORE KPIS --}}
+    <div class="row g-3 mb-3">
         <div class="col-12 col-sm-6 col-xl-3">
             <div class="card border-0 shadow-sm rounded-3 h-100 bg-white">
                 <div class="card-body d-flex align-items-center">
@@ -34,10 +73,10 @@
                         <i class="bi bi-currency-dollar fs-3"></i>
                     </div>
                     <div>
-                        <span class="text-muted small text-uppercase fw-semibold">Penjualan Bulan Ini</span>
+                        <span class="text-muted small text-uppercase fw-semibold">Total Penjualan</span>
                         <h4 class="fw-bold mb-0 text-dark">Rp {{ number_format($metrics['penjualan_bulan_ini'], 0, ',', '.') }}</h4>
                         <span class="badge bg-success-subtle text-success mt-1">
-                            <i class="bi bi-arrow-up-right"></i> +14.2% vs bln lalu
+                            <i class="bi bi-arrow-up-right"></i> 4 Channel Aktif
                         </span>
                     </div>
                 </div>
@@ -51,10 +90,10 @@
                         <i class="bi bi-cart-check fs-3"></i>
                     </div>
                     <div>
-                        <span class="text-muted small text-uppercase fw-semibold">Pembelian & Bahan</span>
+                        <span class="text-muted small text-uppercase fw-semibold">Pembelian & PO</span>
                         <h4 class="fw-bold mb-0 text-dark">Rp {{ number_format($metrics['pembelian_bulan_ini'], 0, ',', '.') }}</h4>
                         <span class="badge bg-info-subtle text-info mt-1">
-                            <i class="bi bi-check2"></i> 18 PO Terselesaikan
+                            <i class="bi bi-truck"></i> 100 Yard Bahan Baku
                         </span>
                     </div>
                 </div>
@@ -71,7 +110,7 @@
                         <span class="text-muted small text-uppercase fw-semibold">Total Stok Siap Jual</span>
                         <h4 class="fw-bold mb-0 text-dark">{{ number_format($metrics['total_stok_jadi']) }} <small class="text-muted fs-6">Pcs</small></h4>
                         <span class="badge bg-success-subtle text-success mt-1">
-                            <i class="bi bi-building"></i> 4 Gudang Aktif
+                            <i class="bi bi-wallet2"></i> Nilai Rp {{ number_format($metrics['nilai_persediaan'], 0, ',', '.') }}
                         </span>
                     </div>
                 </div>
@@ -85,10 +124,10 @@
                         <i class="bi bi-gear-wide-connected fs-3"></i>
                     </div>
                     <div>
-                        <span class="text-muted small text-uppercase fw-semibold">Produksi Berjalan</span>
-                        <h4 class="fw-bold mb-0 text-dark">{{ $metrics['produksi_aktif'] }} <small class="text-muted fs-6">Work Order</small></h4>
+                        <span class="text-muted small text-uppercase fw-semibold">Produksi & WIP</span>
+                        <h4 class="fw-bold mb-0 text-dark">{{ $metrics['produksi_aktif'] }} <small class="text-muted fs-6">WO Aktif</small></h4>
                         <span class="badge bg-warning-subtle text-warning mt-1">
-                            <i class="bi bi-hourglass-split"></i> 4 Tahap Berjalan
+                            <i class="bi bi-scissors"></i> Standar 1,56 Yard
                         </span>
                     </div>
                 </div>
@@ -96,49 +135,107 @@
         </div>
     </div>
 
-    {{-- METRIC CARDS ROW 2: OMNICHANNEL & FINANCE --}}
+    {{-- METRIC CARDS ROW 2: OMNICHANNEL BREAKDOWN (SESUAI BAB 1 PDF) --}}
+    <div class="card border-0 shadow-sm rounded-3 mb-4 bg-white">
+        <div class="card-header bg-white py-2 border-0 d-flex justify-content-between align-items-center">
+            <h6 class="fw-bold text-dark m-0 small text-uppercase">
+                <i class="bi bi-diagram-3 text-primary me-2"></i>Laporan Penjualan per Channel (Omnichannel)
+            </h6>
+            <span class="badge bg-light text-secondary border">Real-time Sync</span>
+        </div>
+        <div class="card-body pt-1 pb-3">
+            <div class="row g-3">
+                <div class="col-6 col-md-3">
+                    <div class="p-3 rounded-3 bg-light border">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="small fw-bold text-dark"><i class="bi bi-bag text-warning me-1"></i> Shopee</span>
+                            <span class="badge bg-warning text-dark">{{ $channelSales['shopee']['share'] }}</span>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-0">Rp {{ number_format($channelSales['shopee']['total'], 0, ',', '.') }}</h5>
+                        <small class="text-muted">{{ $channelSales['shopee']['orders'] }} Transaksi</small>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="p-3 rounded-3 bg-light border">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="small fw-bold text-dark"><i class="bi bi-tiktok text-dark me-1"></i> TikTok Shop</span>
+                            <span class="badge bg-dark">{{ $channelSales['tiktok']['share'] }}</span>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-0">Rp {{ number_format($channelSales['tiktok']['total'], 0, ',', '.') }}</h5>
+                        <small class="text-muted">{{ $channelSales['tiktok']['orders'] }} Transaksi</small>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="p-3 rounded-3 bg-light border">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="small fw-bold text-dark"><i class="bi bi-card-checklist text-primary me-1"></i> Reguler / Reseller</span>
+                            <span class="badge bg-primary">{{ $channelSales['reguler']['share'] }}</span>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-0">Rp {{ number_format($channelSales['reguler']['total'], 0, ',', '.') }}</h5>
+                        <small class="text-muted">{{ $channelSales['reguler']['orders'] }} Transaksi (Resi 4 Digit)</small>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="p-3 rounded-3 bg-light border">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="small fw-bold text-dark"><i class="bi bi-calculator text-success me-1"></i> Toko Fisik (POS)</span>
+                            <span class="badge bg-success">{{ $channelSales['store_pos']['share'] }}</span>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-0">Rp {{ number_format($channelSales['store_pos']['total'], 0, ',', '.') }}</h5>
+                        <small class="text-muted">{{ $channelSales['store_pos']['orders'] }} Transaksi Kasir</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- METRIC CARDS ROW 3: QC TRANSIT, REJECT, SALE & HUTANG/PIUTANG --}}
     <div class="row g-3 mb-4">
         <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm rounded-3 bg-white p-3">
+            <div class="card border-0 shadow-sm rounded-3 bg-white p-3 h-100">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <div class="text-muted small">Pesanan Marketplace</div>
-                        <h5 class="fw-bold mb-0 text-dark">{{ $metrics['pesanan_marketplace'] }} Order</h5>
-                    </div>
-                    <span class="badge bg-danger p-2"><i class="bi bi-shop"></i> Shopee & TikTok</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm rounded-3 bg-white p-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="text-muted small">Pemeriksaan QC Pending</div>
+                        <div class="text-muted small">Gudang Transit (QC)</div>
                         <h5 class="fw-bold mb-0 text-dark">{{ $metrics['qc_pending'] }} Pcs</h5>
+                        <small class="text-warning"><i class="bi bi-clock"></i> Antre Inspeksi</small>
                     </div>
-                    <span class="badge bg-secondary p-2"><i class="bi bi-patch-check"></i> Quality Control</span>
+                    <span class="badge bg-warning p-2"><i class="bi bi-hourglass-split fs-5"></i></span>
                 </div>
             </div>
         </div>
         <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm rounded-3 bg-white p-3">
+            <div class="card border-0 shadow-sm rounded-3 bg-white p-3 h-100">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <div class="text-muted small">Utang Supplier</div>
+                        <div class="text-muted small">Gudang Reject / Service</div>
+                        <h5 class="fw-bold mb-0 text-danger">{{ $metrics['stok_reject_service'] }} Pcs</h5>
+                        <small class="text-danger"><i class="bi bi-tools"></i> Rework Jahitan</small>
+                    </div>
+                    <span class="badge bg-danger p-2"><i class="bi bi-exclamation-octagon fs-5"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm rounded-3 bg-white p-3 h-100">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted small">Gudang Sale (Barang Cacat)</div>
+                        <h5 class="fw-bold mb-0 text-secondary">{{ $metrics['stok_sale_cacat'] }} Pcs</h5>
+                        <small class="text-muted"><i class="bi bi-tag"></i> Clearance Cacat</small>
+                    </div>
+                    <span class="badge bg-secondary p-2"><i class="bi bi-trash3 fs-5"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm rounded-3 bg-white p-3 h-100">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted small">Hutang Supplier (Kain)</div>
                         <h5 class="fw-bold mb-0 text-danger">Rp {{ number_format($metrics['utang_supplier'], 0, ',', '.') }}</h5>
+                        <small class="text-danger"><i class="bi bi-calendar-event"></i> CV Tekstil Bali</small>
                     </div>
-                    <span class="badge bg-danger-subtle text-danger p-2"><i class="bi bi-receipt"></i> Due < 14 hr</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm rounded-3 bg-white p-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="text-muted small">Piutang Pelanggan</div>
-                        <h5 class="fw-bold mb-0 text-primary">Rp {{ number_format($metrics['piutang_pelanggan'], 0, ',', '.') }}</h5>
-                    </div>
-                    <span class="badge bg-primary-subtle text-primary p-2"><i class="bi bi-wallet2"></i> B2B / Reseller</span>
+                    <span class="badge bg-danger-subtle text-danger p-2"><i class="bi bi-receipt fs-5"></i></span>
                 </div>
             </div>
         </div>

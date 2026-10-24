@@ -103,35 +103,49 @@
 
                 {{-- PAYMENT SUMMARY --}}
                 <div class="p-3 bg-light border-top">
+                    {{-- CUSTOMER / MEMBER SELECTOR (SESUAI BAB 11) --}}
+                    <div class="mb-2">
+                        <label class="form-label small fw-bold text-dark mb-1"><i class="bi bi-person-badge me-1"></i> Customer / Member:</label>
+                        <select class="form-select form-select-sm" id="customerSelect">
+                            <option value="1">MBR-001 - Ni Wayan Sukmawati (Member Platinum - 1.250 Poin)</option>
+                            <option value="2">MBR-002 - I Made Suardana (Member Gold - 480 Poin)</option>
+                            <option value="0">Pelanggan Umum / Non-Member</option>
+                        </select>
+                    </div>
+
                     <div class="d-flex justify-content-between mb-1 small">
                         <span class="text-muted">Subtotal:</span>
                         <span class="fw-semibold" id="subtotalVal">Rp 385.000</span>
                     </div>
                     <div class="d-flex justify-content-between mb-1 small">
-                        <span class="text-muted">Diskon / Promo:</span>
-                        <span class="text-success fw-semibold">Rp 0</span>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2 small">
-                        <span class="text-muted">Pajak (PPN):</span>
-                        <span class="text-muted">Rp 0</span>
+                        <span class="text-muted">Diskon Member (5%):</span>
+                        <span class="text-success fw-semibold" id="discountVal">Rp 0</span>
                     </div>
                     <div class="d-flex justify-content-between py-2 border-top border-bottom mb-3">
                         <span class="fw-bold fs-5 text-dark">Total Tagihan:</span>
                         <span class="fw-bold fs-5 text-primary" id="totalVal">Rp 385.000</span>
                     </div>
 
-                    {{-- PAYMENT METHOD --}}
+                    {{-- PAYMENT METHOD INCLUDING SPLIT PAYMENT (BAB 11) --}}
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-dark">Metode Pembayaran:</label>
-                        <div class="d-flex gap-2">
-                            <input type="radio" class="btn-check" name="paymentMethod" id="payCash" checked>
-                            <label class="btn btn-outline-primary btn-sm flex-fill" for="payCash"><i class="bi bi-cash me-1"></i> Tunai</label>
-
-                            <input type="radio" class="btn-check" name="paymentMethod" id="payQris">
-                            <label class="btn btn-outline-primary btn-sm flex-fill" for="payQris"><i class="bi bi-qr-code me-1"></i> QRIS</label>
-
-                            <input type="radio" class="btn-check" name="paymentMethod" id="payTransfer">
-                            <label class="btn btn-outline-primary btn-sm flex-fill" for="payTransfer"><i class="bi bi-credit-card me-1"></i> Transfer</label>
+                        <div class="row g-1">
+                            <div class="col-3">
+                                <input type="radio" class="btn-check" name="paymentMethod" id="payCash" checked>
+                                <label class="btn btn-outline-primary btn-sm w-100" for="payCash"><i class="bi bi-cash"></i> Cash</label>
+                            </div>
+                            <div class="col-3">
+                                <input type="radio" class="btn-check" name="paymentMethod" id="payDebit">
+                                <label class="btn btn-outline-primary btn-sm w-100" for="payDebit"><i class="bi bi-credit-card"></i> Debit</label>
+                            </div>
+                            <div class="col-3">
+                                <input type="radio" class="btn-check" name="paymentMethod" id="payQris">
+                                <label class="btn btn-outline-primary btn-sm w-100" for="payQris"><i class="bi bi-qr-code"></i> QRIS</label>
+                            </div>
+                            <div class="col-3">
+                                <input type="radio" class="btn-check" name="paymentMethod" id="paySplit">
+                                <label class="btn btn-outline-warning btn-sm w-100" for="paySplit" title="Contoh: Cash + QRIS / Debit + QRIS"><i class="bi bi-pie-chart"></i> Split</label>
+                            </div>
                         </div>
                     </div>
 
@@ -139,6 +153,14 @@
                         <button class="btn btn-success btn-lg fw-bold shadow-sm" onclick="processPayment()">
                             <i class="bi bi-check2-circle me-1"></i> Bayar & Cetak Struk (F9)
                         </button>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-danger btn-sm w-50" onclick="voidTransaction()">
+                                <i class="bi bi-shield-lock me-1"></i> Void / Batal (OTP)
+                            </button>
+                            <button class="btn btn-outline-secondary btn-sm w-50" onclick="closeCashier()">
+                                <i class="bi bi-receipt me-1"></i> Tutup Kasir
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -204,15 +226,48 @@
     }
 
     function processPayment() {
+        const isSplit = document.getElementById('paySplit').checked;
+        const note = isSplit ? 'Metode Pembayaran: Split Payment (Cash + QRIS/Debit) telah berhasil diverifikasi.' : 'Pembayaran telah tercatat dan stok barang otomatis dikurangi.';
         Swal.fire({
             title: 'Transaksi Berhasil!',
-            text: 'Pembayaran telah tercatat dan stok barang otomatis dikurangi.',
+            text: note,
             icon: 'success',
             showCancelButton: true,
-            confirmButtonText: 'Cetak Struk',
+            confirmButtonText: '<i class="bi bi-printer me-1"></i> Cetak Struk',
             cancelButtonText: 'Transaksi Baru'
         }).then((result) => {
             clearCart();
+        });
+    }
+
+    function voidTransaction() {
+        Swal.fire({
+            title: 'Otorisasi Void / Pembatalan',
+            text: 'Masukkan PIN / OTP Supervisor untuk membatalkan transaksi (tidak menghapus histori):',
+            input: 'password',
+            inputPlaceholder: 'Masukkan 6 digit PIN Supervisor...',
+            showCancelButton: true,
+            confirmButtonText: 'Verifikasi Void',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                clearCart();
+                Swal.fire('Void Berhasil', 'Transaksi telah dibatalkan dengan audit trail tercatat.', 'info');
+            }
+        });
+    }
+
+    function closeCashier() {
+        Swal.fire({
+            title: 'Tutup Kasir & Rekonsiliasi Kas',
+            html: '<div class="text-start small mb-2">Total Penjualan Tunai Sistem: <b>Rp 4.520.000</b><br>Total QRIS / EDC: <b>Rp 3.830.000</b></div><input id="swalPhysicalCash" class="swal2-input" placeholder="Masukkan Uang Fisik Kasir (Rp)...">',
+            showCancelButton: true,
+            confirmButtonText: 'Konfirmasi Tutup Kasir',
+            cancelButtonText: 'Kembali'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire('Kasir Ditutup', 'Laporan rekonsiliasi kasir telah dicetak dan dikirim ke Accounting.', 'success');
+            }
         });
     }
 
