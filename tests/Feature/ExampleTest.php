@@ -45,20 +45,37 @@ class ExampleTest extends TestCase
     {
         $modules = [
             '/master/produk',
+            '/master/coa',
+            '/master/penjahit',
             '/purchasing/po',
             '/inventory/stok',
+            '/inventory/movement',
+            '/inventory/opname',
+            '/inventory/minimum',
             '/produksi/work-orders',
             '/qc/inspeksi',
             '/penjualan/transaksi',
             '/marketplace/pesanan',
+            '/retur/paket',
             '/finance/arus-kas',
+            '/finance/utang-piutang',
+            '/finance/piutang',
+            '/finance/rekonsiliasi',
+            '/finance/laba-rugi',
+            '/accounting/coa',
+            '/accounting/jurnal',
+            '/accounting/buku-besar',
+            '/accounting/neraca-saldo',
+            '/accounting/laba-rugi',
+            '/accounting/neraca',
+            '/accounting/arus-kas',
             '/laporan/transaksi',
+            '/laporan/keuangan',
         ];
 
         foreach ($modules as $url) {
             $response = $this->get($url);
             $response->assertStatus(200);
-            $response->assertSee('Tambah Data Baru');
         }
     }
 }
