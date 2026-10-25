@@ -597,12 +597,87 @@ class ModuleController extends Controller
                 break;
 
                 // ==========================================
-                // 4. PRODUKSI: PEMAKAIAN BAHAN & SIMULASI 1,56 YARD (SESUAI BAB 4)
+                // 4. PRODUKSI: SURAT PENGELUARAN BAHAN UNTUK PENJAHIT (BAB 4.3)
+                // ==========================================
+            case 'produksi/pengeluaran-bahan':
+                $config['headerIcon'] = 'bi-send-check';
+                $config['formTitle'] = 'Surat Pengeluaran Bahan untuk Penjahit (SPK / Material Issue)';
+                $config['summaryCards'] = [
+                    ['title' => 'SPK Dikeluarkan', 'value' => '12 Dokumen', 'icon' => 'bi-file-earmark-check', 'color' => 'primary'],
+                    ['title' => 'Bahan Dikirim (Brokat)', 'value' => '100 Yard (WO-001)', 'icon' => 'bi-scissors', 'color' => 'success'],
+                    ['title' => 'Penjahit Rekanan', 'value' => 'I Wayan Artana', 'icon' => 'bi-person-badge', 'color' => 'info'],
+                    ['title' => 'Status Gudang Asal', 'value' => 'Gudang Kain (1140) -> WIP (1145)', 'icon' => 'bi-arrow-left-right', 'color' => 'warning'],
+                ];
+                $config['columns'] = [
+                    ['key' => 'spk_no', 'label' => 'No. SPK Pengeluaran'],
+                    ['key' => 'wo_ref', 'label' => 'No. Work Order'],
+                    ['key' => 'release_date', 'label' => 'Tanggal Pengeluaran'],
+                    ['key' => 'vendor_name', 'label' => 'Penjahit Penerima'],
+                    ['key' => 'material_info', 'label' => 'Bahan Baku & Kuantitas'],
+                    ['key' => 'roll_lot', 'label' => 'No. Roll / Lot Bahan'],
+                    ['key' => 'receipt_status', 'label' => 'Status Tanda Terima'],
+                ];
+                $config['rows'] = [
+                    ['id' => 1, 'spk_no' => 'SPK-202610-001', 'wo_ref' => 'WO-202610-001', 'release_date' => '20/10/2026 09:30', 'vendor_name' => 'I Wayan Artana (Denpasar)', 'material_info' => '100 Yard Kain Brokat Semi Prancis Maroon', 'roll_lot' => 'Roll #BRK-9901 (PO-041)', 'receipt_status' => 'Diterima Lengkap (Masuk Gudang Penjahit)', 'badge' => 'success'],
+                    ['id' => 2, 'spk_no' => 'SPK-202610-002', 'wo_ref' => 'WO-202610-002', 'release_date' => '22/10/2026 10:15', 'vendor_name' => 'Tenun Sidemen Klungkung', 'material_info' => '80 Meter Kain Tenun Endek Sutra Hitam', 'roll_lot' => 'Roll #EDK-4412', 'receipt_status' => 'Diterima Lengkap (WIP Tenun)', 'badge' => 'success'],
+                    ['id' => 3, 'spk_no' => 'SPK-202610-003', 'wo_ref' => 'WO-202610-003', 'release_date' => '23/10/2026 14:00', 'vendor_name' => 'Sukawati Garment', 'material_info' => '135 Meter Katun Jepang Putih', 'roll_lot' => 'Roll #KTN-1102', 'receipt_status' => 'Dalam Pengantaran Kurir', 'badge' => 'warning'],
+                ];
+                $config['formFields'] = [
+                    ['name' => 'spk_no', 'label' => 'Nomor SPK Pengeluaran Bahan', 'type' => 'text', 'placeholder' => 'SPK-202610-004', 'required' => true],
+                    ['name' => 'wo_ref', 'label' => 'Pilih Referensi Work Order (WO)', 'type' => 'select', 'options' => ['WO-202610-001 (Kebaya Bali Bordir Maroon - 60 Pcs)', 'WO-202610-002 (Kamen Endek Sutra - 32 Pcs)', 'WO-202610-003 (Kemeja Safari Pria - 75 Pcs)'], 'required' => true],
+                    ['name' => 'vendor_penjahit', 'label' => 'Penjahit / Vendor Penerima', 'type' => 'select', 'options' => ['I Wayan Artana (Denpasar)', 'Tenun Sidemen Klungkung', 'Sukawati Garment'], 'required' => true],
+                    ['name' => 'bahan_baku', 'label' => 'Item Bahan Baku', 'type' => 'select', 'options' => ['BB-KN-BRKT-01 - Kain Brokat Semi Prancis Maroon (Yard)', 'BB-KN-EDK-02 - Kain Tenun Endek Sutra (Meter)', 'BB-KN-KTN-03 - Katun Jepang Putih (Meter)'], 'required' => true],
+                    ['name' => 'qty_keluar', 'label' => 'Kuantitas Dikeluarkan (Yard/Meter)', 'type' => 'number', 'placeholder' => '100', 'required' => true],
+                    ['name' => 'no_roll', 'label' => 'Nomor Roll / Lot Bahan', 'type' => 'text', 'placeholder' => 'Roll #BRK-9902'],
+                    ['name' => 'petugas_gudang', 'label' => 'Petugas Gudang Penyerah', 'type' => 'text', 'placeholder' => 'I Ketut Sudira (Kepala Gudang)'],
+                ];
+                break;
+
+                // ==========================================
+                // 4. PRODUKSI: RESEP PRODUK (BOM) PER MODEL & FLEKSIBILITAS KONSUMSI (BAB 4.1 & 4.3)
+                // ==========================================
+            case 'produksi/bom':
+                $config['headerIcon'] = 'bi-diagram-3';
+                $config['formTitle'] = 'Master Bill of Materials (BOM) / Formula Resep Bahan per Model';
+                $config['summaryCards'] = [
+                    ['title' => 'Formula BOM Aktif', 'value' => '12 Model', 'icon' => 'bi-diagram-3', 'color' => 'primary'],
+                    ['title' => 'Standar Kebaya Demo', 'value' => '1,56 Yard / Pcs', 'icon' => 'bi-rulers', 'color' => 'success'],
+                    ['title' => 'Fleksibilitas Formula', 'value' => 'Bebas Diubah per SKU', 'icon' => 'bi-sliders', 'color' => 'info'],
+                    ['title' => 'Estimasi HPP Kebaya', 'value' => 'Rp 185.000 / Pcs', 'icon' => 'bi-calculator', 'color' => 'warning'],
+                ];
+                $config['columns'] = [
+                    ['key' => 'sku_code', 'label' => 'Kode SKU / Model'],
+                    ['key' => 'product_name', 'label' => 'Nama Model Pakaian'],
+                    ['key' => 'main_fabric', 'label' => 'Konsumsi Bahan Kain Utama'],
+                    ['key' => 'accessories', 'label' => 'Aksesoris & Bahan Pendukung'],
+                    ['key' => 'sewing_cost', 'label' => 'Ongkos Jahit Standar'],
+                    ['key' => 'est_hpp', 'label' => 'Estimasi HPP Standar'],
+                    ['key' => 'status', 'label' => 'Status Formula'],
+                ];
+                $config['rows'] = [
+                    ['id' => 1, 'sku_code' => 'KB-BRD-MRN', 'product_name' => 'Kebaya Bali Bordir Maroon (Model Demo)', 'main_fabric' => '1,56 Yard (Brokat Semi Prancis @ 75rb)', 'accessories' => 'Furing Hero (1,2 Yd) + Kancing + Benang Emas (Rp 18.000)', 'sewing_cost' => 'Rp 45.000 / pcs', 'est_hpp' => 'Rp 185.000 (Jual Rp 385.000)', 'status' => 'Standar Resmi Aktif', 'badge' => 'success'],
+                    ['id' => 2, 'sku_code' => 'KB-KTB-WHT', 'product_name' => 'Kebaya Kutubaru Katun Putih', 'main_fabric' => '1,65 Yard (Katun Rayon @ 60rb)', 'accessories' => 'Kancing Bungkus 8 Pcs + Benang Katun (Rp 12.000)', 'sewing_cost' => 'Rp 40.000 / pcs', 'est_hpp' => 'Rp 151.000 (Jual Rp 320.000)', 'status' => 'Standar Resmi Aktif', 'badge' => 'success'],
+                    ['id' => 3, 'sku_code' => 'KM-EDK-GLD', 'product_name' => 'Kamen Endek Sutra Motif Wajik Emas', 'main_fabric' => '2,50 Meter (Tenun Endek @ 65rb)', 'accessories' => 'Karet Pinggang (0,8 M) + Resleting YKK (Rp 15.000)', 'sewing_cost' => 'Rp 35.000 / pcs', 'est_hpp' => 'Rp 212.500 (Jual Rp 450.000)', 'status' => 'Standar Resmi Aktif', 'badge' => 'primary'],
+                    ['id' => 4, 'sku_code' => 'KMJ-SFR-WHT', 'product_name' => 'Kemeja Safari Pria Katun Jepang XL', 'main_fabric' => '1,80 Meter (Katun Jepang @ 55rb)', 'accessories' => 'Kain Keras Kerah + Kancing Jas 6 Pcs (Rp 16.000)', 'sewing_cost' => 'Rp 40.000 / pcs', 'est_hpp' => 'Rp 155.000 (Jual Rp 325.000)', 'status' => 'Standar Resmi Aktif', 'badge' => 'info'],
+                ];
+                $config['formFields'] = [
+                    ['name' => 'sku_code', 'label' => 'Kode SKU Model', 'type' => 'text', 'placeholder' => 'KB-BRD-GLD', 'required' => true],
+                    ['name' => 'nama_model', 'label' => 'Nama Model / Koleksi Produk', 'type' => 'text', 'placeholder' => 'Kebaya Bali Bordir Gold', 'required' => true],
+                    ['name' => 'bahan_utama', 'label' => 'Bahan Baku Kain Utama', 'type' => 'select', 'options' => ['Kain Brokat Semi Prancis', 'Kain Tenun Endek Sutra', 'Kain Katun Jepang', 'Kain Katun Rayon'], 'required' => true],
+                    ['name' => 'standar_konsumsi', 'label' => 'Standar Konsumsi Kain (Dapat Diubah per Model)', 'type' => 'text', 'placeholder' => '1.56', 'required' => true],
+                    ['name' => 'satuan_konsumsi', 'label' => 'Satuan Bahan', 'type' => 'select', 'options' => ['Yard', 'Meter', 'Pcs', 'Roll'], 'required' => true],
+                    ['name' => 'aksesoris_pendukung', 'label' => 'Bahan Pembantu & Aksesoris', 'type' => 'textarea', 'placeholder' => 'Furing Hero 1,2 yard, kancing bungkus 8 pcs, benang bordir emas...'],
+                    ['name' => 'ongkos_jahit', 'label' => 'Ongkos Jahit Standar per Pcs (Rp)', 'type' => 'number', 'placeholder' => '45000', 'required' => true],
+                    ['name' => 'alokasi_overhead', 'label' => 'Alokasi Biaya Overhead Produksi (Rp)', 'type' => 'number', 'placeholder' => '5000'],
+                ];
+                break;
+
+                // ==========================================
+                // 4. PRODUKSI: PEMAKAIAN BAHAN & SIMULASI 1,56 YARD (SESUAI BAB 4.2)
                 // ==========================================
             case 'produksi/pemakaian-bahan':
-            case 'produksi/bom':
                 $config['headerIcon'] = 'bi-scissors';
-                $config['formTitle'] = 'Formula Kebutuhan Bahan (BOM) & Rekonsiliasi Kain';
+                $config['formTitle'] = 'Rekonsiliasi Pemakaian Kain, Konsumsi 1,56 Yard & Lokasi Sisa Bahan (Bab 4.2 PDF)';
                 $config['summaryCards'] = [
                     ['title' => 'Pembelian Kain', 'value' => '100 Yard', 'icon' => 'bi-box-seam', 'color' => 'primary'],
                     ['title' => 'Standar per Kebaya', 'value' => '1,56 Yard', 'icon' => 'bi-rulers', 'color' => 'info'],

@@ -917,9 +917,9 @@ return [
         ],
 
         // 4. PRODUCTION, BOM & HPP
-        ['header' => '4. PRODUKSI, BOM & HPP'],
+        ['header' => '4. PRODUKSI, BOM & HPP (BAB 4)'],
         [
-            'text' => 'Produksi (Work Order)',
+            'text' => 'Modul Produksi & HPP',
             'icon' => 'bi bi-gear-wide-connected',
             'submenu' => [
                 [
@@ -928,12 +928,17 @@ return [
                     'icon' => 'bi bi-kanban',
                 ],
                 [
-                    'text' => 'Formula BOM (1,56 Yard)',
+                    'text' => 'Surat Pengeluaran Bahan (SPK)',
+                    'url' => 'produksi/pengeluaran-bahan',
+                    'icon' => 'bi bi-send-check',
+                ],
+                [
+                    'text' => 'Resep BOM per Model',
                     'url' => 'produksi/bom',
                     'icon' => 'bi bi-diagram-3',
                 ],
                 [
-                    'text' => 'Pemakaian Bahan & Sisa Kain',
+                    'text' => 'Pemakaian & Sisa Kain (1,56 Yd)',
                     'url' => 'produksi/pemakaian-bahan',
                     'icon' => 'bi bi-scissors',
                 ],
@@ -943,7 +948,7 @@ return [
                     'icon' => 'bi bi-check2-circle',
                 ],
                 [
-                    'text' => 'Perhitungan & Rincian HPP',
+                    'text' => 'Perhitungan & Simulasi HPP',
                     'url' => 'produksi/hpp',
                     'icon' => 'bi bi-calculator',
                 ],
