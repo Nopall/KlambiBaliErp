@@ -26,16 +26,18 @@
 
 @section('content')
     {{-- DEMO ACCOUNT WALKTHROUGH ACCORDION / CARD (SESUAI HALAMAN 9 PDF) --}}
-    <div class="card border-0 shadow-sm rounded-3 mb-4 bg-gradient" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
-        <div class="card-body p-4 text-white">
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <div class="card border-0 shadow-sm rounded-3 mb-4 bg-white" style="border-left: 5px solid #0d6efd !important;">
+        <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3 pb-2 border-bottom">
                 <div>
-                    <span class="badge bg-primary px-3 py-1 mb-2 text-uppercase"><i class="bi bi-patch-check-fill me-1"></i> Demo Account Scenario (Halaman 9 PDF)</span>
-                    <h4 class="fw-bold mb-1 text-white">Simulasi 12 Langkah Alur Bisnis KlambiBali</h4>
-                    <p class="text-white-50 small mb-0">Semua dummy data di sistem ini telah disinkronkan secara presisi dengan alur produksi kebaya, 7 gudang, dan pembukuan akuntansi.</p>
+                    <span class="badge bg-primary px-3 py-1 mb-2 text-uppercase fw-semibold shadow-sm">
+                        <i class="bi bi-patch-check-fill me-1"></i> Demo Account Scenario (Halaman 9 PDF)
+                    </span>
+                    <h4 class="fw-bold mb-1 text-dark" style="color: #0f172a !important;">Simulasi 12 Langkah Alur Bisnis KlambiBali</h4>
+                    <p class="text-secondary small mb-0" style="color: #475569 !important;">Semua dummy data di sistem ini telah disinkronkan secara presisi dengan alur produksi kebaya, 7 gudang, dan pembukuan akuntansi.</p>
                 </div>
-                <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#demoStepsCollapse" aria-expanded="true">
-                    <i class="bi bi-chevron-down me-1"></i> Buka / Tutup Rincian 12 Langkah
+                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#demoStepsCollapse" aria-expanded="true">
+                    <i class="bi bi-chevron-down me-1"></i> Sembunyikan / Tampilkan
                 </button>
             </div>
 
@@ -43,17 +45,17 @@
                 <div class="row g-2 mt-2">
                     @foreach($demoSteps as $step)
                         <div class="col-12 col-md-6 col-xl-4">
-                            <div class="p-3 rounded-3 h-100 bg-white bg-opacity-10 border border-white border-opacity-10">
+                            <div class="p-3 rounded-3 h-100" style="background-color: #f8fafc !important; border: 1px solid #e2e8f0 !important;">
                                 <div class="d-flex align-items-start gap-2">
-                                    <span class="badge bg-primary rounded-circle p-2 fs-6" style="width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center;">{{ $step['step'] }}</span>
+                                    <span class="badge bg-primary rounded-circle p-2 fs-6 fw-bold text-white shadow-sm" style="width: 30px; height: 30px; min-width: 30px; display: inline-flex; align-items: center; justify-content: center;">{{ $step['step'] }}</span>
                                     <div class="flex-grow-1">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h6 class="fw-bold text-white mb-1 small">{{ $step['title'] }}</h6>
-                                            <a href="{{ url($step['url']) }}" class="btn btn-xs btn-outline-info py-0 px-1 text-decoration-none" style="font-size: 11px;">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <h6 class="fw-bold mb-0 small" style="color: #0f172a !important; font-size: 13px;">{{ $step['title'] }}</h6>
+                                            <a href="{{ url($step['url']) }}" class="btn btn-xs btn-outline-primary py-0 px-2 text-decoration-none fw-semibold shadow-sm" style="font-size: 11px; white-space: nowrap;">
                                                 Buka <i class="bi bi-arrow-right"></i>
                                             </a>
                                         </div>
-                                        <p class="text-white-50 mb-0" style="font-size: 12px; line-height: 1.4;">{{ $step['desc'] }}</p>
+                                        <p class="mb-0" style="font-size: 12px; line-height: 1.45; color: #475569 !important;">{{ $step['desc'] }}</p>
                                     </div>
                                 </div>
                             </div>
