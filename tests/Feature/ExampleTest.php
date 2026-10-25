@@ -2,10 +2,18 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\KlambiBaliErpSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase;
+
+    protected bool $seed = true;
+
+    protected string $seeder = KlambiBaliErpSeeder::class;
+
     /**
      * Test root route redirects to home dashboard.
      */

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,12 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::firstOrCreate(
-            ['email' => 'admin@klambibali.com'],
-            [
-                'name' => 'Administrator KlambiBali',
-                'password' => bcrypt('password'),
-            ]
-        );
+        $this->call(KlambiBaliErpSeeder::class);
     }
 }
