@@ -85,12 +85,12 @@ return [
     |
     */
 
-    'logo' => '<span class="fw-bold text-primary">Klambi</span>Bali <b>ERP</b>',
-    'logo_img' => 'vendor/adminlte/dist/assets/img/AdminLTELogo.png',
-    'logo_img_class' => 'brand-image opacity-75 shadow',
+    'logo' => '<span style="font-family: \'Playfair Display\', serif; letter-spacing: 1.5px; color: #c2ae79; font-weight: 700;">KLAMBI</span> <span style="font-family: \'Playfair Display\', serif; letter-spacing: 1.5px; color: #ffffff; font-weight: 400;">BALI</span> <small class="badge px-2 py-1 ms-1" style="background: linear-gradient(135deg, #c2ae79, #a8945f); color: #283023; font-weight: bold; font-size: 10px;">ERP</small>',
+    'logo_img' => 'images/logo-klambibali.png',
+    'logo_img_class' => 'brand-image rounded-circle shadow-sm border border-1',
     'logo_img_xl' => null,
-    'logo_img_xl_class' => 'brand-image-xs opacity-75',
-    'logo_img_alt' => 'Admin Logo',
+    'logo_img_xl_class' => 'brand-image-xs',
+    'logo_img_alt' => 'KlambiBali Logo',
 
     /*
     |--------------------------------------------------------------------------
@@ -532,7 +532,7 @@ return [
     */
 
     'classes_body' => 'bg-body-tertiary',
-    'classes_brand' => '',
+    'classes_brand' => 'border-bottom',
     'classes_brand_text' => 'fw-light',
     'classes_wrapper' => '',
     'classes_content_wrapper' => '',
@@ -541,9 +541,9 @@ return [
     'classes_content' => '',
     'classes_content_top_area' => '',
     'classes_content_bottom_area' => '',
-    'classes_sidebar' => 'bg-body-secondary shadow',
+    'classes_sidebar' => 'shadow',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'bg-body',
+    'classes_topnav' => 'bg-white border-bottom shadow-sm',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container-fluid',
 
@@ -669,22 +669,23 @@ return [
     |
     */
 
-    // The custom properties applied on the whole document. For example:
-    // 'css_variables' => ['--bs-primary' => '#6f42c1'],
-
-    'css_variables' => [],
-
-    // The selector of the block above. Only ':root' and 'body' are accepted,
-    // any other value falls back to ':root'.
+    'css_variables' => [
+        '--bs-primary' => '#c2ae79',
+        '--bs-primary-rgb' => '194, 174, 121',
+        '--bs-link-color' => '#8f7943',
+        '--bs-link-hover-color' => '#6b582b',
+    ],
 
     'css_variables_scope' => ':root',
 
-    // The custom properties applied on the sidebar element only. AdminLTE
-    // redeclares the sidebar properties under a color mode selector, so these
-    // are emitted with a matching specificity. For example:
-    // 'css_variables_sidebar' => ['--lte-sidebar-bg' => '#1f2d3d'],
-
-    'css_variables_sidebar' => [],
+    'css_variables_sidebar' => [
+        '--lte-sidebar-bg' => '#283023',
+        '--lte-sidebar-hover-bg' => '#353e2e',
+        '--lte-sidebar-color' => '#dbe2d6',
+        '--lte-sidebar-hover-color' => '#ffffff',
+        '--lte-sidebar-active-color' => '#1e241a',
+        '--lte-sidebar-active-bg' => '#c2ae79',
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -1420,6 +1421,16 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js',
+                ],
+            ],
+        ],
+        'KlambiBaliTheme' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'css/klambibali-theme.css',
                 ],
             ],
         ],
