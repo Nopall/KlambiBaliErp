@@ -1,9 +1,14 @@
 <?php
 
 use App\Http\Controllers\AccountingController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\PosController;
+use App\Http\Controllers\ProductionController;
+use App\Http\Controllers\PurchasingController;
+use App\Http\Controllers\ReturnController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,10 +23,11 @@ Auth::routes();
 // Dashboard Route
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-// Quick POS Route
-Route::get('/pos', function () {
-    return view('pages.pos');
-})->name('pos.index');
+// Point of Sale (POS) Kasir Toko Fisik (Bab 11 PRD)
+Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
+Route::post('/pos/checkout', [PosController::class, 'checkout'])->name('pos.checkout');
+Route::get('/pos/riwayat', [PosController::class, 'history'])->name('pos.history');
+Route::post('/pos/close-shift', [PosController::class, 'closeShift'])->name('pos.close-shift');
 
 // ==========================================
 // KARTU STOK & INVENTORI GUDANG
@@ -43,6 +49,38 @@ Route::get('/accounting/neraca', [AccountingController::class, 'balanceSheet'])-
 Route::get('/accounting/balance-sheet', [AccountingController::class, 'balanceSheet'])->name('accounting.balance-sheet');
 Route::get('/accounting/arus-kas', [AccountingController::class, 'cashFlow'])->name('accounting.arus-kas');
 Route::get('/finance/arus-kas', [AccountingController::class, 'cashFlow'])->name('accounting.cash-flow');
+
+// ==========================================
+// PURCHASING & PEMBELIAN (BAB 2 PRD)
+// ==========================================
+Route::get('/purchasing/po', [PurchasingController::class, 'index'])->name('purchasing.po');
+Route::post('/purchasing/po', [PurchasingController::class, 'store'])->name('purchasing.po.store');
+Route::get('/purchasing/penerimaan', [PurchasingController::class, 'receipts'])->name('purchasing.penerimaan');
+Route::post('/purchasing/penerimaan', [PurchasingController::class, 'storeReceipt'])->name('purchasing.penerimaan.store');
+
+// ==========================================
+// PRODUKSI & QC (BAB 3, 4 & 5 PRD)
+// ==========================================
+Route::get('/produksi/work-orders', [ProductionController::class, 'workOrders'])->name('produksi.work-orders');
+Route::post('/produksi/work-orders', [ProductionController::class, 'storeWorkOrder'])->name('produksi.work-orders.store');
+Route::get('/produksi/pengeluaran-bahan', [ProductionController::class, 'materialIssues'])->name('produksi.material-issues');
+Route::post('/produksi/pengeluaran-bahan', [ProductionController::class, 'storeMaterialIssue'])->name('produksi.material-issues.store');
+Route::get('/produksi/pemakaian-bahan', [ProductionController::class, 'reconciliation'])->name('produksi.reconciliation');
+Route::post('/produksi/pemakaian-bahan', [ProductionController::class, 'storeReconciliation'])->name('produksi.reconciliation.store');
+Route::get('/qc/inspeksi', [ProductionController::class, 'qcInspection'])->name('qc.inspeksi');
+Route::post('/qc/inspeksi', [ProductionController::class, 'storeQcInspection'])->name('qc.inspeksi.store');
+
+// ==========================================
+// RETURN PAKET REVERSE LOGISTICS (BAB 14 PRD)
+// ==========================================
+Route::get('/retur/paket', [ReturnController::class, 'index'])->name('retur.paket');
+Route::get('/retur/search-order', [ReturnController::class, 'searchOrder'])->name('retur.search-order');
+Route::post('/retur/paket', [ReturnController::class, 'store'])->name('retur.paket.store');
+
+// ==========================================
+// EKSPOR NYATA KE EXCEL (.CSV / .XLSX) (BAB 13 PRD)
+// ==========================================
+Route::get('/export/{type}', [ExportController::class, 'export'])->name('export.data');
 
 // Dynamic ERP modules route (List, Search, Filter & Forms for other modules)
 Route::get('/{module}/{submodule?}', [ModuleController::class, 'show'])

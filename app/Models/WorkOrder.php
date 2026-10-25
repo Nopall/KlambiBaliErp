@@ -33,9 +33,19 @@ class WorkOrder extends Model
         return $this->hasMany(MaterialIssue::class);
     }
 
+    public function warehouseWip(): BelongsTo
+    {
+        return $this->belongsTo(Warehouse::class, 'warehouse_wip_id');
+    }
+
     public function reconciliation(): HasOne
     {
         return $this->hasOne(ProductionReconciliation::class);
+    }
+
+    public function reconciliations(): HasMany
+    {
+        return $this->hasMany(ProductionReconciliation::class);
     }
 
     public function qcInspections(): HasMany
