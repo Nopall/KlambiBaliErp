@@ -2,15 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class ModuleController extends Controller
 {
     /**
      * Show dummy list and form tailored to the active ERP module/submodule.
      */
-    public function show(string $module, ?string $submodule = null): View
+    public function show(string $module, ?string $submodule = null)
     {
+        $gate = match ($module) {
+            'master' => $submodule === 'users' ? 'access-users' : 'access-master',
+            'purchasing' => 'access-purchasing',
+            'inventory' => 'access-inventory',
+            'produksi' => 'access-produksi',
+            'qc' => 'access-qc',
+            'penjualan' => 'access-penjualan',
+            'marketplace' => 'access-marketplace',
+            'finance' => 'access-finance',
+            'accounting' => 'access-accounting',
+            'retur', 'return' => 'access-retur',
+            'laporan' => 'access-laporan',
+            default => null,
+        };
+
+        if ($gate && ! Gate::allows($gate)) {
+            /** @var User|null $user */
+            $user = auth()->user();
+
+            return redirect($user ? $user->default_route : route('home'))
+                ->with('warning', "Akses Dibatasi: Role Anda ({$user->role_label}) tidak memiliki hak akses ke modul ".ucwords($module).'.');
+        }
+
         $key = strtolower($module.'/'.($submodule ?? 'index'));
 
         $config = $this->getModuleConfig($module, $submodule, $key);

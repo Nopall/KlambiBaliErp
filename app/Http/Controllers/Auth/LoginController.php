@@ -3,38 +3,46 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class LoginController extends Controller
+class LoginController extends Controller implements HasMiddleware
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
+     * Get the middleware that should be assigned to the controller.
      */
-    protected $redirectTo = '/home';
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('guest', except: ['logout']),
+            new Middleware('auth', only: ['logout']),
+        ];
+    }
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * Where to redirect users after login based on their role.
      */
-    public function __construct()
+    public function redirectTo(): string
     {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
+        /** @var User|null $user */
+        $user = auth()->user();
+
+        return $user ? $user->default_route : '/home';
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        $user->update(['last_login_at' => now()]);
     }
 }

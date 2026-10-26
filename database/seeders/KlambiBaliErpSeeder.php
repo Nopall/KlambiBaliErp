@@ -44,30 +44,71 @@ class KlambiBaliErpSeeder extends Seeder
 
     private function seedUsers(): void
     {
-        User::firstOrCreate(['email' => 'admin@klambibali.com'], [
-            'name' => 'Administrator KlambiBali',
-            'password' => bcrypt('password'),
-        ]);
+        $users = [
+            [
+                'email' => 'admin@klambibali.com',
+                'name' => 'Owner / Super Admin KlambiBali',
+                'role' => User::ROLE_OWNER,
+                'phone' => '081234567801',
+                'password' => bcrypt('password'),
+            ],
+            [
+                'email' => 'purchasing@klambibali.com',
+                'name' => 'I Gede Artawan (Purchasing)',
+                'role' => User::ROLE_PURCHASING,
+                'phone' => '081234567802',
+                'password' => bcrypt('password'),
+            ],
+            [
+                'email' => 'produksi@klambibali.com',
+                'name' => 'I Made Raka (Produksi & QC)',
+                'role' => User::ROLE_PRODUKSI,
+                'phone' => '081234567803',
+                'password' => bcrypt('password'),
+            ],
+            [
+                'email' => 'gudang@klambibali.com',
+                'name' => 'I Ketut Sudira (Kepala Gudang)',
+                'role' => User::ROLE_GUDANG,
+                'phone' => '081234567804',
+                'password' => bcrypt('password'),
+            ],
+            [
+                'email' => 'sales@klambibali.com',
+                'name' => 'Ni Putu Mirah (Sales & CS)',
+                'role' => User::ROLE_SALES,
+                'phone' => '081234567805',
+                'password' => bcrypt('password'),
+            ],
+            [
+                'email' => 'kasir@klambibali.com',
+                'name' => 'Ni Wayan Sukerti (Kasir POS)',
+                'role' => User::ROLE_KASIR,
+                'phone' => '081234567806',
+                'password' => bcrypt('password'),
+            ],
+            [
+                'email' => 'finance@klambibali.com',
+                'name' => 'I Made Dharmawan (Finance & Accounting)',
+                'role' => User::ROLE_FINANCE,
+                'phone' => '081234567807',
+                'password' => bcrypt('password'),
+            ],
+            [
+                'email' => 'qc@klambibali.com',
+                'name' => 'Ni Kadek Ayu (Supervisor QC)',
+                'role' => User::ROLE_PRODUKSI,
+                'phone' => '081234567808',
+                'password' => bcrypt('password'),
+            ],
+        ];
 
-        User::firstOrCreate(['email' => 'kasir@klambibali.com'], [
-            'name' => 'Ni Wayan Sukerti (Kasir POS)',
-            'password' => bcrypt('password'),
-        ]);
-
-        User::firstOrCreate(['email' => 'gudang@klambibali.com'], [
-            'name' => 'I Ketut Sudira (Kepala Gudang)',
-            'password' => bcrypt('password'),
-        ]);
-
-        User::firstOrCreate(['email' => 'qc@klambibali.com'], [
-            'name' => 'Ni Kadek Ayu (Supervisor QC)',
-            'password' => bcrypt('password'),
-        ]);
-
-        User::firstOrCreate(['email' => 'finance@klambibali.com'], [
-            'name' => 'I Made Dharmawan (Finance & Accounting)',
-            'password' => bcrypt('password'),
-        ]);
+        foreach ($users as $userData) {
+            User::updateOrCreate(
+                ['email' => $userData['email']],
+                $userData
+            );
+        }
     }
 
     private function seedWarehouses(): void

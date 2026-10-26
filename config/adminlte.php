@@ -800,386 +800,489 @@ return [
         ],
 
         // 1. DASHBOARD & MASTER DATA
-        ['header' => '1. DASHBOARD & MASTER DATA'],
+        [
+            'header' => '1. DASHBOARD & MASTER DATA',
+            'can' => 'access-master',
+        ],
         [
             'text' => 'Master Data',
             'icon' => 'bi bi-folder2-open',
+            'can' => 'access-master',
             'submenu' => [
                 [
                     'text' => 'Produk & Barcode SKU',
                     'url' => 'master/produk',
                     'icon' => 'bi bi-box-seam',
+                    'can' => 'access-master',
                 ],
                 [
                     'text' => 'Kategori & Subkategori',
                     'url' => 'master/kategori',
                     'icon' => 'bi bi-tags',
+                    'can' => 'access-master',
                 ],
                 [
                     'text' => 'Bahan Baku (Yard/Meter)',
                     'url' => 'master/bahan-baku',
                     'icon' => 'bi bi-layers',
+                    'can' => 'access-master',
                 ],
                 [
                     'text' => 'Data Supplier',
                     'url' => 'master/supplier',
                     'icon' => 'bi bi-truck',
+                    'can' => 'access-purchasing',
                 ],
                 [
                     'text' => 'Vendor Penjahit',
                     'url' => 'master/penjahit',
                     'icon' => 'bi bi-person-gear',
+                    'can' => 'access-produksi',
                 ],
                 [
                     'text' => 'Data Pelanggan & Member',
                     'url' => 'master/pelanggan',
                     'icon' => 'bi bi-people',
+                    'can' => 'access-penjualan',
                 ],
                 [
                     'text' => 'Chart of Accounts (COA)',
                     'url' => 'master/coa',
                     'icon' => 'bi bi-diagram-3',
+                    'can' => 'access-accounting',
                 ],
                 [
                     'text' => 'User & Hak Akses',
                     'url' => 'master/users',
                     'icon' => 'bi bi-shield-lock',
+                    'can' => 'access-users',
                 ],
             ],
         ],
 
         // 2. PURCHASING & SUPPLIER
-        ['header' => '2. PURCHASING & SUPPLIER'],
+        [
+            'header' => '2. PURCHASING & SUPPLIER',
+            'can' => 'access-purchasing',
+        ],
         [
             'text' => 'Purchasing',
             'icon' => 'bi bi-cart3',
+            'can' => 'access-purchasing',
             'submenu' => [
                 [
                     'text' => 'Purchase Order (PO)',
                     'url' => 'purchasing/po',
                     'icon' => 'bi bi-file-earmark-text',
+                    'can' => 'access-purchasing',
                 ],
                 [
                     'text' => 'Penerimaan Barang & QC',
                     'url' => 'purchasing/penerimaan',
                     'icon' => 'bi bi-box-arrow-in-down',
+                    'can' => 'access-purchasing',
                 ],
                 [
                     'text' => 'Riwayat & Histori Harga Beli',
                     'url' => 'purchasing/riwayat',
                     'icon' => 'bi bi-clock-history',
+                    'can' => 'access-purchasing',
                 ],
                 [
                     'text' => 'Tagihan & Hutang Supplier',
                     'url' => 'purchasing/utang',
                     'icon' => 'bi bi-receipt',
+                    'can' => 'access-purchasing',
                 ],
             ],
         ],
 
         // 3. MULTI-WAREHOUSE & INVENTORY
-        ['header' => '3. MULTI-WAREHOUSE & STOK'],
+        [
+            'header' => '3. MULTI-WAREHOUSE & STOK',
+            'can' => 'access-inventory',
+        ],
         [
             'text' => 'Gudang & Inventori',
             'icon' => 'bi bi-boxes',
+            'can' => 'access-inventory',
             'submenu' => [
                 [
                     'text' => 'Daftar 7 Gudang KlambiBali',
                     'url' => 'inventory/gudang',
                     'icon' => 'bi bi-building',
+                    'can' => 'access-inventory',
                 ],
                 [
                     'text' => 'Stok Multi-Gudang per SKU',
                     'url' => 'inventory/stok',
                     'icon' => 'bi bi-collection',
+                    'can' => 'access-inventory',
                 ],
                 [
                     'text' => 'Transfer Antar-Gudang',
                     'url' => 'inventory/transfer',
                     'icon' => 'bi bi-arrow-left-right',
+                    'can' => 'access-inventory',
                 ],
                 [
                     'text' => 'Kartu Stok (Histori Mutasi)',
                     'url' => 'inventory/movement',
                     'icon' => 'bi bi-journal-arrow-down',
+                    'can' => 'access-inventory',
                 ],
                 [
                     'text' => 'Stok Opname & Adjustment',
                     'url' => 'inventory/opname',
                     'icon' => 'bi bi-clipboard-check',
+                    'can' => 'access-inventory',
                 ],
                 [
                     'text' => 'Peringatan Stok Minimum/Mati',
                     'url' => 'inventory/minimum',
                     'icon' => 'bi bi-exclamation-triangle',
                     'label_color' => 'danger',
+                    'can' => 'access-inventory',
                 ],
             ],
         ],
 
         // 4. PRODUCTION, BOM & HPP
-        ['header' => '4. PRODUKSI, BOM & HPP (BAB 4)'],
+        [
+            'header' => '4. PRODUKSI, BOM & HPP (BAB 4)',
+            'can' => 'access-produksi',
+        ],
         [
             'text' => 'Modul Produksi & HPP',
             'icon' => 'bi bi-gear-wide-connected',
+            'can' => 'access-produksi',
             'submenu' => [
                 [
                     'text' => 'Perintah Produksi (WO)',
                     'url' => 'produksi/work-orders',
                     'icon' => 'bi bi-kanban',
+                    'can' => 'access-produksi',
                 ],
                 [
                     'text' => 'Surat Pengeluaran Bahan (SPK)',
                     'url' => 'produksi/pengeluaran-bahan',
                     'icon' => 'bi bi-send-check',
+                    'can' => 'access-produksi',
                 ],
                 [
                     'text' => 'Resep BOM per Model',
                     'url' => 'produksi/bom',
                     'icon' => 'bi bi-diagram-3',
+                    'can' => 'access-produksi',
                 ],
                 [
                     'text' => 'Pemakaian & Sisa Kain (1,56 Yd)',
                     'url' => 'produksi/pemakaian-bahan',
                     'icon' => 'bi bi-scissors',
+                    'can' => 'access-produksi',
                 ],
                 [
                     'text' => 'Hasil Produksi ke Transit',
                     'url' => 'produksi/hasil-produksi',
                     'icon' => 'bi bi-check2-circle',
+                    'can' => 'access-produksi',
                 ],
                 [
                     'text' => 'Perhitungan & Simulasi HPP',
                     'url' => 'produksi/hpp',
                     'icon' => 'bi bi-calculator',
+                    'can' => 'access-produksi',
                 ],
             ],
         ],
 
         // 5. QUALITY CONTROL, REJECT & BARCODE
-        ['header' => '5. QUALITY CONTROL & BARCODE'],
+        [
+            'header' => '5. QUALITY CONTROL & BARCODE',
+            'can' => 'access-qc',
+        ],
         [
             'text' => 'QC & Barcode',
             'icon' => 'bi bi-upc-scan',
+            'can' => 'access-qc',
             'submenu' => [
                 [
                     'text' => 'Pemeriksaan Kualitas (QC)',
                     'url' => 'qc/inspeksi',
                     'icon' => 'bi bi-patch-check',
+                    'can' => 'access-qc',
                 ],
                 [
                     'text' => 'Gudang Reject & Service',
                     'url' => 'qc/reject',
                     'icon' => 'bi bi-x-octagon',
+                    'can' => 'access-qc',
                 ],
                 [
                     'text' => 'Rework Jahitan & QC Ulang',
                     'url' => 'qc/perbaikan',
                     'icon' => 'bi bi-tools',
+                    'can' => 'access-qc',
                 ],
                 [
                     'text' => 'Kelola SKU & Cetak Barcode',
                     'url' => 'qc/barcode',
                     'icon' => 'bi bi-printer',
+                    'can' => 'access-qc',
                 ],
             ],
         ],
 
         // 6. PENJUALAN & RETUR
-        ['header' => '6. PENJUALAN & OMNICHANNEL'],
+        [
+            'header' => '6. PENJUALAN & OMNICHANNEL',
+            'can' => 'access-penjualan',
+        ],
         [
             'text' => 'Penjualan',
             'icon' => 'bi bi-bag-check',
+            'can' => 'access-penjualan',
             'submenu' => [
                 [
                     'text' => 'Transaksi Penjualan',
                     'url' => 'penjualan/transaksi',
                     'icon' => 'bi bi-cart-plus',
+                    'can' => 'access-penjualan',
                 ],
                 [
                     'text' => 'Pesanan Reguler (Resi 4 Digit)',
                     'url' => 'penjualan/pesanan',
                     'icon' => 'bi bi-card-checklist',
+                    'can' => 'access-penjualan',
                 ],
                 [
                     'text' => 'Pembayaran & Piutang',
                     'url' => 'penjualan/pembayaran',
                     'icon' => 'bi bi-wallet2',
+                    'can' => 'access-penjualan',
                 ],
             ],
         ],
 
         // 7. INTEGRASI MARKETPLACE
-        ['header' => '7. INTEGRASI MARKETPLACE'],
+        [
+            'header' => '7. INTEGRASI MARKETPLACE',
+            'can' => 'access-marketplace',
+        ],
         [
             'text' => 'Marketplace',
             'icon' => 'bi bi-shop',
+            'can' => 'access-marketplace',
             'submenu' => [
                 [
                     'text' => 'Pesanan Shopee & TikTok',
                     'url' => 'marketplace/pesanan',
                     'icon' => 'bi bi-bag-dash',
+                    'can' => 'access-marketplace',
                 ],
                 [
                     'text' => 'Sinkronisasi Stok & Produk',
                     'url' => 'marketplace/produk',
                     'icon' => 'bi bi-arrow-repeat',
+                    'can' => 'access-marketplace',
                 ],
                 [
                     'text' => 'Shopee & TikTok Shop API',
                     'url' => 'marketplace/koneksi',
                     'icon' => 'bi bi-link-45deg',
+                    'can' => 'access-marketplace',
                 ],
             ],
         ],
 
         // 8. POINT OF SALE (POS)
-        ['header' => '8. POINT OF SALE (POS)'],
+        [
+            'header' => '8. POINT OF SALE (POS)',
+            'can' => 'access-pos',
+        ],
         [
             'text' => 'Kasir / POS Langsung',
             'url' => 'pos',
             'icon' => 'bi bi-display',
             'label' => 'KASIR',
             'label_color' => 'success',
+            'can' => 'access-pos',
         ],
         [
             'text' => 'Riwayat & Rekonsiliasi Kasir',
             'url' => 'pos/riwayat',
             'icon' => 'bi bi-receipt-cutoff',
+            'can' => 'access-pos',
         ],
 
         // 9. RETURN PAKET (SESUAI BAB 14)
-        ['header' => '9. RETURN PAKET (BAB 14)'],
+        [
+            'header' => '9. RETURN PAKET (BAB 14)',
+            'can' => 'access-retur',
+        ],
         [
             'text' => 'Return Paket',
             'icon' => 'bi bi-arrow-counterclockwise',
+            'can' => 'access-retur',
             'submenu' => [
                 [
                     'text' => 'Input Return via 4 Digit Resi',
                     'url' => 'retur/paket',
                     'icon' => 'bi bi-box-arrow-in-left',
+                    'can' => 'access-retur',
                 ],
                 [
                     'text' => 'Gudang Transit Return & QC',
                     'url' => 'retur/transit',
                     'icon' => 'bi bi-patch-question',
+                    'can' => 'access-retur',
                 ],
             ],
         ],
 
         // 10. FINANCE / KEUANGAN (SESUAI BAB 8)
-        ['header' => '10. FINANCE / KEUANGAN (BAB 8)'],
+        [
+            'header' => '10. FINANCE / KEUANGAN (BAB 8)',
+            'can' => 'access-finance',
+        ],
         [
             'text' => 'Finance & Kas',
             'icon' => 'bi bi-cash-coin',
+            'can' => 'access-finance',
             'submenu' => [
                 [
                     'text' => 'Buku Kas & Bank',
                     'url' => 'finance/arus-kas',
                     'icon' => 'bi bi-cash-stack',
+                    'can' => 'access-finance',
                 ],
                 [
                     'text' => 'Hutang Dagang Supplier',
                     'url' => 'finance/utang-piutang',
                     'icon' => 'bi bi-receipt',
+                    'can' => 'access-finance',
                 ],
                 [
                     'text' => 'Piutang Pelanggan & Reseller',
                     'url' => 'finance/piutang',
                     'icon' => 'bi bi-credit-card-2-front',
+                    'can' => 'access-finance',
                 ],
                 [
                     'text' => 'Biaya Operasional',
                     'url' => 'finance/biaya-operasional',
                     'icon' => 'bi bi-journal-text',
+                    'can' => 'access-finance',
                 ],
                 [
                     'text' => 'Rekonsiliasi Bank',
                     'url' => 'finance/rekonsiliasi',
                     'icon' => 'bi bi-bank',
+                    'can' => 'access-finance',
                 ],
             ],
         ],
 
         // 11. ACCOUNTING (SESUAI BAB 9)
-        ['header' => '11. ACCOUNTING (BAB 9)'],
+        [
+            'header' => '11. ACCOUNTING (BAB 9)',
+            'can' => 'access-accounting',
+        ],
         [
             'text' => 'Accounting & Laporan',
             'icon' => 'bi bi-journal-check',
+            'can' => 'access-accounting',
             'submenu' => [
                 [
                     'text' => 'Chart of Accounts (COA)',
                     'url' => 'accounting/coa',
                     'icon' => 'bi bi-diagram-3',
+                    'can' => 'access-accounting',
                 ],
                 [
                     'text' => 'Jurnal Transaksi Otomatis',
                     'url' => 'accounting/jurnal',
                     'icon' => 'bi bi-journal-bookmark',
+                    'can' => 'access-accounting',
                 ],
                 [
                     'text' => 'Buku Besar (General Ledger)',
                     'url' => 'accounting/buku-besar',
                     'icon' => 'bi bi-journal-text',
+                    'can' => 'access-accounting',
                 ],
                 [
                     'text' => 'Neraca Saldo (Trial Balance)',
                     'url' => 'accounting/neraca-saldo',
                     'icon' => 'bi bi-calculator',
+                    'can' => 'access-accounting',
                 ],
                 [
                     'text' => 'Laporan Laba Rugi Komprehensif',
                     'url' => 'accounting/laba-rugi',
                     'icon' => 'bi bi-graph-up-arrow',
+                    'can' => 'access-accounting',
                 ],
                 [
                     'text' => 'Neraca (Balance Sheet)',
                     'url' => 'accounting/neraca',
                     'icon' => 'bi bi-scale',
+                    'can' => 'access-accounting',
                 ],
                 [
                     'text' => 'Laporan Arus Kas',
                     'url' => 'accounting/arus-kas',
                     'icon' => 'bi bi-cash-stack',
+                    'can' => 'access-accounting',
                 ],
             ],
         ],
 
         // 12. REPORTS & EXPORT (BAB 12 & 13)
-        ['header' => '12. LAPORAN & EKSPOR EXCEL'],
+        [
+            'header' => '12. LAPORAN & EKSPOR EXCEL',
+            'can' => 'access-laporan',
+        ],
         [
             'text' => 'Laporan & Ekspor',
             'icon' => 'bi bi-file-earmark-ruled',
+            'can' => 'access-laporan',
             'submenu' => [
                 [
                     'text' => 'Laporan Penjualan per Channel',
                     'url' => 'laporan/transaksi',
                     'icon' => 'bi bi-file-earmark-bar-graph',
+                    'can' => 'access-laporan',
                 ],
                 [
                     'text' => 'Laporan Pembelian & Hutang',
                     'url' => 'laporan/pembelian',
                     'icon' => 'bi bi-receipt-cutoff',
+                    'can' => 'access-laporan',
                 ],
                 [
                     'text' => 'Laporan 7 Gudang & HPP Stok',
                     'url' => 'laporan/stok',
                     'icon' => 'bi bi-file-earmark-spreadsheet',
+                    'can' => 'access-laporan',
                 ],
                 [
                     'text' => 'Laporan Produksi & Selisih Bahan',
                     'url' => 'laporan/produksi',
                     'icon' => 'bi bi-scissors',
+                    'can' => 'access-laporan',
                 ],
                 [
                     'text' => 'Laporan Keuangan & HPP',
                     'url' => 'laporan/keuangan',
                     'icon' => 'bi bi-file-earmark-medical',
+                    'can' => 'access-laporan',
                 ],
                 [
                     'text' => 'Ekspor Seluruh Modul ke Excel',
                     'url' => 'laporan/ekspor',
                     'icon' => 'bi bi-file-earmark-excel',
+                    'can' => 'access-laporan',
                 ],
             ],
         ],
