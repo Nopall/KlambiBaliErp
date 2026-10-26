@@ -170,12 +170,22 @@
                             <div class="col-12">
                                 <label class="form-label fw-semibold text-dark">Pilih Work Order Aktif (Dalam Proses Jahit):</label>
                                 <select name="work_order_id" class="form-select" id="woSelect" required onchange="updateCalc()">
-                                    @foreach($workOrders as $w)
-                                        <option value="{{ $w->id }}" data-kain="{{ $w->allocated_raw_material_qty }}" data-bom="{{ $w->std_kain_consumption }}" data-target="{{ $w->target_qty }}">
-                                            [{{ $w->wo_number }}] {{ $w->product?->name }} (Penjahit: {{ $w->tailor?->name }} | Alokasi: {{ $w->allocated_raw_material_qty }} Yd | BOM: {{ $w->std_kain_consumption }} Yd)
-                                        </option>
-                                    @endforeach
+                                    @if($workOrders->isEmpty())
+                                        <option value="" disabled selected>-- Belum ada Work Order (WO) yang siap direkonsiliasi --</option>
+                                    @else
+                                        <option value="" disabled selected>-- Pilih Work Order (WO) Selesai Jahit --</option>
+                                        @foreach($workOrders as $w)
+                                            <option value="{{ $w->id }}" data-kain="{{ $w->allocated_raw_material_qty }}" data-bom="{{ $w->std_kain_consumption }}" data-target="{{ $w->target_qty }}">
+                                                [{{ $w->wo_number }}] {{ $w->product?->name }} (Penjahit: {{ $w->tailor?->name }} | Alokasi: {{ $w->allocated_raw_material_qty }} Yd | BOM: {{ $w->std_kain_consumption }} Yd)
+                                            </option>
+                                        @endforeach
+                                    @endif
                                 </select>
+                                @if($workOrders->isEmpty())
+                                    <small class="text-danger mt-1 d-block">
+                                        <i class="bi bi-exclamation-circle me-1"></i> Tidak ada antrean WO. Silakan buat WO baru atau terbitkan SPK Bahan terlebih dahulu.
+                                    </small>
+                                @endif
                             </div>
 
                             <div class="col-12 col-md-4">

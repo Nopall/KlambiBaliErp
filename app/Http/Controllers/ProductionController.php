@@ -58,12 +58,9 @@ class ProductionController extends Controller
             'wo_number' => $woNumber,
             'product_id' => $request->product_id,
             'tailor_id' => $request->tailor_id,
-            'warehouse_wip_id' => $gdaWip->id,
             'start_date' => Carbon::now()->toDateString(),
             'due_date' => Carbon::now()->addDays(14)->toDateString(),
             'target_qty' => $request->target_qty,
-            'allocated_raw_material_qty' => $request->allocated_raw_material_qty,
-            'std_kain_consumption' => $request->std_kain_consumption,
             'status' => 'draft',
             'notes' => $request->notes,
             'user_id' => $user->id,
@@ -77,8 +74,8 @@ class ProductionController extends Controller
      */
     public function materialIssues(): View
     {
-        $issues = MaterialIssue::with(['workOrder.product', 'tailor', 'rawMaterial', 'sourceWarehouse', 'destinationWarehouse', 'user'])->latest()->get();
-        $workOrders = WorkOrder::whereIn('status', ['draft', 'in_progress'])->get();
+        $issues = MaterialIssue::with(['workOrder.product', 'tailor', 'rawMaterial', 'user'])->latest()->get();
+        $workOrders = WorkOrder::with(['product', 'tailor'])->whereNotIn('status', ['cancelled'])->orderBy('id', 'desc')->get();
         $rawMaterials = Product::where('type', 'raw_material')->get();
         $gdBb = Warehouse::where('code', 'GD-BB-01')->first();
         $gdWip = Warehouse::where('code', 'GD-WIP-02')->first();
@@ -109,21 +106,19 @@ class ProductionController extends Controller
             DB::beginTransaction();
 
             $issue = MaterialIssue::create([
-                'issue_number' => $spkNumber,
+                'spk_number' => $spkNumber,
                 'work_order_id' => $wo->id,
                 'tailor_id' => $wo->tailor_id,
                 'raw_material_id' => $raw->id,
-                'source_warehouse_id' => $gdBb->id,
-                'destination_warehouse_id' => $gdWip->id,
-                'issue_date' => Carbon::now()->toDateString(),
-                'qty_issued' => $request->qty_issued,
-                'status' => 'received',
+                'issue_date' => Carbon::now(),
+                'qty_allocated' => $request->qty_issued,
+                'receipt_status' => 'Diterima Penjahit',
                 'notes' => $request->notes ?? "Alokasi {$request->qty_issued} yard kain ke Penjahit {$wo->tailor?->name}",
-                'user_id' => $user->id,
+                'issued_by' => $user->id,
             ]);
 
             // Update status WO
-            $wo->update(['status' => 'in_progress']);
+            $wo->update(['status' => 'in_production']);
 
             // 1. Kurangi stok di Gudang Bahan Baku
             $stockBb = Stock::where('product_id', $raw->id)->where('warehouse_id', $gdBb->id)->first();
@@ -233,7 +228,7 @@ class ProductionController extends Controller
      */
     public function reconciliation(): View
     {
-        $workOrders = WorkOrder::with(['product.variants', 'tailor', 'reconciliations'])->where('status', 'in_progress')->get();
+        $workOrders = WorkOrder::with(['product.variants', 'tailor', 'reconciliations'])->whereNotIn('status', ['cancelled'])->orderBy('id', 'desc')->get();
         $history = ProductionReconciliation::with(['workOrder.product', 'user'])->latest()->get();
 
         return view('pages.produksi.reconciliation', compact('workOrders', 'history'));

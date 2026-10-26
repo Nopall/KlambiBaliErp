@@ -174,12 +174,22 @@
                             <div class="col-12">
                                 <label class="form-label fw-semibold text-dark">Pilih Produk Dari Antrean Gudang Transit:</label>
                                 <select name="product_id" id="modalProductId" class="form-select" required>
-                                    @foreach($transitStocks as $ts)
-                                        <option value="{{ $ts->product_id }}">
-                                            {{ $ts->product?->name }} (Antrean: {{ $ts->qty }} pcs)
-                                        </option>
-                                    @endforeach
+                                    @if($transitStocks->isEmpty())
+                                        <option value="" disabled selected>-- Belum ada produk di Gudang Transit (Menunggu QC) --</option>
+                                    @else
+                                        <option value="" disabled selected>-- Pilih Produk di Antrean Transit --</option>
+                                        @foreach($transitStocks as $ts)
+                                            <option value="{{ $ts->product_id }}">
+                                                {{ $ts->product?->name }} (Antrean: {{ $ts->qty }} pcs)
+                                            </option>
+                                        @endforeach
+                                    @endif
                                 </select>
+                                @if($transitStocks->isEmpty())
+                                    <small class="text-danger mt-1 d-block">
+                                        <i class="bi bi-exclamation-circle me-1"></i> Tidak ada antrean produk di Gudang Transit. Produk masuk transit setelah penjahit menyelesaikan jahit di menu <a href="{{ route('produksi.reconciliation') }}" class="fw-bold">Rekonsiliasi Bahan</a>.
+                                    </small>
+                                @endif
                             </div>
 
                             {{-- 3 JALUR PEMISAHAN GUDANG --}}

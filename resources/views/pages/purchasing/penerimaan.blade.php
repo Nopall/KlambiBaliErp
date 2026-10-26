@@ -157,13 +157,23 @@
                         <div class="mb-3">
                             <label class="form-label fw-semibold text-dark">Pilih Purchase Order (PO):</label>
                             <select name="purchase_order_id" id="modalPoSelect" class="form-select" required>
-                                @foreach($pendingPos as $p)
-                                    @php $it = $p->items->first(); @endphp
-                                    <option value="{{ $p->id }}">
-                                        [{{ $p->po_number }}] {{ $p->supplier?->name }} - {{ $it?->product?->name }} (Sisa: {{ ($it->qty_ordered - $it->qty_received) }} Yd)
-                                    </option>
-                                @endforeach
+                                @if($pendingPos->isEmpty())
+                                    <option value="" disabled selected>-- Belum ada Purchase Order (PO) yang menunggu penerimaan --</option>
+                                @else
+                                    <option value="" disabled selected>-- Pilih Purchase Order (PO) Terkait --</option>
+                                    @foreach($pendingPos as $p)
+                                        @php $it = $p->items->first(); @endphp
+                                        <option value="{{ $p->id }}">
+                                            [{{ $p->po_number }}] {{ $p->supplier?->name }} - {{ $it?->product?->name }} (Sisa: {{ ($it->qty_ordered - $it->qty_received) }} Yd)
+                                        </option>
+                                    @endforeach
+                                @endif
                             </select>
+                            @if($pendingPos->isEmpty())
+                                <small class="text-danger mt-1 d-block">
+                                    <i class="bi bi-exclamation-circle me-1"></i> Tidak ada PO yang menunggu penerimaan. Silakan buat PO baru di menu <a href="{{ route('purchasing.po') }}" class="fw-bold">Purchase Order (PO)</a>.
+                                </small>
+                            @endif
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold text-dark">Jumlah Kuantitas Yang Diterima Sekarang (Yard/Pcs):</label>

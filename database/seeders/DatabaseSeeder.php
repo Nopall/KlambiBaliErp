@@ -14,6 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(KlambiBaliErpSeeder::class);
+        $this->call([
+            KlambiBaliErpSeeder::class,
+            UserRoleSeeder::class,
+            DemoPipelineSeeder::class,
+        ]);
     }
 }

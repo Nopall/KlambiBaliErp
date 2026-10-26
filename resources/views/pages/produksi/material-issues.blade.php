@@ -126,12 +126,22 @@
                             <div class="col-12 col-md-6">
                                 <label class="form-label fw-semibold text-dark">Pilih Work Order (WO) Terkait:</label>
                                 <select name="work_order_id" class="form-select" required>
-                                    @foreach($workOrders as $w)
-                                        <option value="{{ $w->id }}">
-                                            [{{ $w->wo_number }}] {{ $w->product?->name }} - Penjahit: {{ $w->tailor?->name }} (Alokasi: {{ $w->allocated_raw_material_qty }} Yd)
-                                        </option>
-                                    @endforeach
+                                    @if($workOrders->isEmpty())
+                                        <option value="" disabled selected>-- Belum ada Work Order (WO) yang tersedia --</option>
+                                    @else
+                                        <option value="" disabled selected>-- Pilih Work Order (WO) Terkait --</option>
+                                        @foreach($workOrders as $w)
+                                            <option value="{{ $w->id }}">
+                                                [{{ $w->wo_number }}] {{ $w->product?->name }} - Penjahit: {{ $w->tailor?->name }} (Target: {{ $w->target_qty }} pcs | Status: {{ strtoupper(str_replace('_', ' ', $w->status)) }})
+                                            </option>
+                                        @endforeach
+                                    @endif
                                 </select>
+                                @if($workOrders->isEmpty())
+                                    <small class="text-danger mt-1 d-block">
+                                        <i class="bi bi-exclamation-circle me-1"></i> Belum ada WO aktif. Silakan buat di menu <a href="{{ route('produksi.work-orders') }}" class="fw-bold">Perintah Kerja (WO)</a>.
+                                    </small>
+                                @endif
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label fw-semibold text-dark">Pilih Bahan Baku Kain Yang Dikeluarkan:</label>

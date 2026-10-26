@@ -33,4 +33,19 @@ class MaterialIssue extends Model
     {
         return $this->belongsTo(User::class, 'issued_by');
     }
+
+    public function getIssueNumberAttribute(): ?string
+    {
+        return $this->spk_number;
+    }
+
+    public function getQtyIssuedAttribute(): ?string
+    {
+        return (string) $this->qty_allocated;
+    }
+
+    public function getStatusAttribute(): ?string
+    {
+        return $this->receipt_status;
+    }
 }
